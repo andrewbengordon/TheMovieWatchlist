@@ -1,0 +1,80 @@
+﻿@using TheMovieWatchlist.Data
+@inject TheMovieWatchlist.Services.MovieService movieService
+@inject IJSRuntime js;
+
+
+@if (loadingMovieDetails)
+{
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+}
+else
+{
+    <div class="jumbotron">
+        <h1 class="display-4">@movieDetails.fullTitle</h1>
+        <p class="fw-light fs-6">
+            @movieDetails.year
+            ⬩
+            @movieDetails.contentRating
+            ⬩
+            @movieDetails.runtimeStr
+
+        </p>
+        <hr class="mb-4 mt-0">
+        <div class="row mb-2">
+            <div class="col-3 border-end border-3">
+                <img src=@movieDetails.image class="img-fluid mb-2"/>
+                <div class="row">
+                    <a target="_blank" href=@($"https://www.imdb.com/title/{MovieId}")>
+                        <img src="icons/imdb_icon.png" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-9 my-auto">
+                <div class="my-2">
+                    @foreach (var genre in movieDetails.genres.Split(','))
+                    {
+                        <span class="badge rounded-pill bg-secondary mx-1">@genre</span>
+                    }
+                </div>
+                @movieDetails.plot
+                <h2>Cast:</h2>
+                <div class="d-flex flex-row overflow-auto">
+                    @foreach (var actor in movieDetails.actorList)
+                    {
+                        <div>
+                            <ActorRoleCard Actor="actor"></ActorRoleCard>
+                        </div>
+                    }
+                </div>
+                <div class="ratio ratio-16x9 m-2">
+                    <iframe 
+                        class="embed-responsive-item"
+                        src=@youtubeTrailer.videoUrl.Replace("watch?v=", "embed/") 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public string MovieId { get; set; }
+
+    private bool loadingMovieDetails = true;
+
+    private MovieDetails movieDetails = new();
+    private YoutubeTrailer youtubeTrailer = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        movieDetails = await movieService.GetMovieDetailsAsync(MovieId);
+        youtubeTrailer = await movieService.GetMovieYoutubeTrailerAsync(MovieId);
+        loadingMovieDetails = false;
+    }
+}

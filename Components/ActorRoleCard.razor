@@ -1,0 +1,26 @@
+﻿@using TheMovieWatchlist.Data
+
+<style>
+    .actor_img {
+        object-fit: cover
+    }
+</style>
+
+<div class="d-flex flex-row border border-2 rounded rounded-3 m-2 overflow-auto mw-100 align-items-center bg-light">
+    <div class="p-2">
+        <img class="actor_img rounded-circle" src=@Actor.image width="150px" height="150px" />
+    </div>
+    <div class="p-2 mw-100 text-nowrap">
+        <p class="fs-4 fw-bold">
+            @Actor.name
+        </p>
+        <p>
+            @Actor.asCharacter
+        </p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Actorlist Actor { get; set; }
+}
