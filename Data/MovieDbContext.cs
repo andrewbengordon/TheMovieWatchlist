@@ -8,5 +8,7 @@ namespace TheMovieWatchlist.Data
         {
             
         }
+
+        public DbSet<UserWatchlist> UserWatchlists { get; set; }
     }
 }
