@@ -23,11 +23,6 @@ namespace TheMovieWatchlist.Services
             var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
             return user.FindFirst("emails").Value;
-
-            foreach (var claim in user.Claims)
-            {
-                Console.WriteLine(claim.ToString());
-            }
         }
     }
 }

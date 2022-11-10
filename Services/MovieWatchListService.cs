@@ -36,5 +36,10 @@ namespace TheMovieWatchlist.Services
             var itemToBeUpdated = userWatchlist[userId].Where(w => w.MovieId == item.MovieId).FirstOrDefault();
             itemToBeUpdated.Status = status;
         }
+
+        public string GetStatus(string userId, WatchlistItem item)
+        {
+            return userWatchlist[userId].Where(w => w.MovieId == item.MovieId).FirstOrDefault().Status;
+        }
     }
 }

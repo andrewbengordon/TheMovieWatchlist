@@ -1,4 +1,5 @@
-﻿@using TheMovieWatchlist.Data
+﻿@page "/MovieDetail/{MovieId}"
+@using TheMovieWatchlist.Data
 @inject TheMovieWatchlist.Services.MovieService movieService
 
 @if (loadingMovieDetails)

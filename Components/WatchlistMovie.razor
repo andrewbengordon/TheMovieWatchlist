@@ -1,5 +1,7 @@
 ﻿@using TheMovieWatchlist.Data
 @inject TheMovieWatchlist.Services.MovieService movieService
+@inject TheMovieWatchlist.Services.MovieWatchListService watchlistService
+@inject TheMovieWatchlist.Services.UserService userService
 
 @if (loadingMovieDetails)
 {
@@ -10,9 +12,20 @@
 else
 {
     <div class="card">
-        <img class="card-img-top" src=@movieDetails.image />
+        <a href="MovieDetail/@movieDetails.id">
+            <img class="card-img-top" src=@movieDetails.image />
+        </a>
         <div class="card-body text-center">
-            @WatchlistItem.Status
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    @WatchlistItem.Status
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button class="dropdown-item" @onclick="() => ChangeStatus(statuses[0])" >@statuses[0]</button>
+                    <button class="dropdown-item" @onclick="() => ChangeStatus(statuses[1])" >@statuses[1]</button>
+                    <button class="dropdown-item" @onclick="() => ChangeStatus(statuses[2])" >@statuses[2]</button>
+                </div>
+            </div>
         </div>
     </div>
 }
@@ -23,10 +36,23 @@ else
 
     private MovieDetails movieDetails = new();
     private bool loadingMovieDetails = true;
+    private string[] statuses = { "Watched", "Watching", "Not Watched" };
+    private string userId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         movieDetails = await movieService.GetMovieDetailsAsync(WatchlistItem.MovieId);
         loadingMovieDetails = false;
+        userId = await userService.GetUserId();
+    }
+
+    public void ChangeStatus(string status)
+    {
+        watchlistService.UpdateStatus(userId, status, WatchlistItem);
+    }
+
+    public string GetStatus()
+    {
+        return watchlistService.GetStatus(userId, WatchlistItem);
     }
 }
