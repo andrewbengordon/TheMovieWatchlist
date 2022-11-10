@@ -9,12 +9,11 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddDbContext<MovieDbContext>(options =>
-    options.UseSqlite("data source= movie.db")
-);
+
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddScoped<MovieService>();
+builder.Services.AddSingleton<MovieWatchListService>();
 
 builder.Services.AddMsalAuthentication(options =>
 {
