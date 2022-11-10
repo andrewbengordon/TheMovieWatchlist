@@ -1,26 +1,35 @@
 ﻿@page "/Watchlist"
 @using System.Security.Claims
 @using TheMovieWatchlist.Data
+@using TheMovieWatchlist.Components
 @inject TheMovieWatchlist.Services.MovieWatchListService movieWatchListService
+@inject TheMovieWatchlist.Services.UserService userService;
 
 <AuthorizeView>
-    Hello, @context.User.Identity?.Name!
+    <div class="row">
+    @foreach (var movie in WatchlistItems)
+    {   
+        <div class="col-2 my-2">
+            <WatchlistMovie WatchlistItem=@movie></WatchlistMovie>
+        </div>
+    }
+    </div>
 </AuthorizeView>
 
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="..." alt="Card image cap">
-    <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-</div>
-
-    @code {
+@code {
     public List<WatchlistItem> WatchlistItems { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        //WatchlistItems = movieWatchListService.GetUserWatchList()
+        var userId = await userService.GetUserId();
+        WatchlistItems = movieWatchListService.GetUserWatchList(userId);
+
+        var item = new WatchlistItem()
+        {
+            MovieId = "tt11564570",
+            Status = "Watching"
+        };
+
+        movieWatchListService.AddMovie(userId, item);
     }
 }

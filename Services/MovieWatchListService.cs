@@ -9,25 +9,31 @@ namespace TheMovieWatchlist.Services
         private Dictionary<string, List<WatchlistItem>> userWatchlist = new Dictionary<string, List<WatchlistItem>>();
 
 
-        public List<WatchlistItem> GetUserWatchList(string userEmail)
+        public List<WatchlistItem> GetUserWatchList(string userId)
         {
-            return userWatchlist[userEmail];
+            if (userWatchlist.ContainsKey(userId))
+            {
+                return userWatchlist[userId];
+            }
+            
+            userWatchlist.Add(userId, new List<WatchlistItem>());
+            return userWatchlist[userId];
         }
 
-        public void AddMovie(string userEmail, WatchlistItem item)
+        public void AddMovie(string userId, WatchlistItem item)
         {
-            userWatchlist[userEmail].Add(item);
+            userWatchlist[userId].Add(item);
         }
 
-        public void RemoveMovie(string userEmail, WatchlistItem item)
+        public void RemoveMovie(string userId, WatchlistItem item)
         {
-            var itemToBeRemoved = userWatchlist[userEmail].Where(w => w.MovieId == item.MovieId).FirstOrDefault();
-            userWatchlist[userEmail].Remove(itemToBeRemoved);
+            var itemToBeRemoved = userWatchlist[userId].Where(w => w.MovieId == item.MovieId).FirstOrDefault();
+            userWatchlist[userId].Remove(itemToBeRemoved);
         }
 
-        public void UpdateStatus(string userEmail, string status, WatchlistItem item)
+        public void UpdateStatus(string userId, string status, WatchlistItem item)
         {
-            var itemToBeUpdated = userWatchlist[userEmail].Where(w => w.MovieId == item.MovieId).FirstOrDefault();
+            var itemToBeUpdated = userWatchlist[userId].Where(w => w.MovieId == item.MovieId).FirstOrDefault();
             itemToBeUpdated.Status = status;
         }
     }

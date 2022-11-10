@@ -1,5 +1,32 @@
-﻿<h3>Component</h3>
+﻿@using TheMovieWatchlist.Data
+@inject TheMovieWatchlist.Services.MovieService movieService
+
+@if (loadingMovieDetails)
+{
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+}
+else
+{
+    <div class="card">
+        <img class="card-img-top" src=@movieDetails.image />
+        <div class="card-body text-center">
+            @WatchlistItem.Status
+        </div>
+    </div>
+}
 
 @code {
+    [Parameter]
+    public WatchlistItem? WatchlistItem { get; set; }
 
+    private MovieDetails movieDetails = new();
+    private bool loadingMovieDetails = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        movieDetails = await movieService.GetMovieDetailsAsync(WatchlistItem.MovieId);
+        loadingMovieDetails = false;
+    }
 }
