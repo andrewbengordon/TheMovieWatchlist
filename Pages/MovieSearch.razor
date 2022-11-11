@@ -14,15 +14,16 @@
         {
             @foreach (var result in searchData.Results)
             {
-                <div class="card col-3 m-2">
-                    <a href="MovieDetail/@result.Id" class="stretched-link"></a>
-                    <img class="card-img-top" src=@result.Image />
-                    <div class="card-body text-center">
-                        <div class="card-body">
-                            <h5 class="card-title">@result.Title</h5>
+                <a href="MovieDetail/@result.Id" class="col-3 my-2">
+                    <div class="card h-100">
+                        <img class="card-img-top" src=@result.Image />
+                        <div class="card-body text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">@result.Title</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             }
         }
     </div>

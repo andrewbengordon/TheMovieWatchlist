@@ -6,14 +6,21 @@
 @inject TheMovieWatchlist.Services.UserService userService;
 
 <AuthorizeView>
-    <div class="row">
-    @foreach (var movie in WatchlistItems)
-    {   
-        <div class="col-3 my-2">
-            <WatchlistMovie WatchlistItem=@movie></WatchlistMovie>
+    <Authorized>
+        <div class="row">
+        @foreach (var movie in WatchlistItems)
+        {   
+            <div class="col-3 my-2">
+                    <WatchlistMovie WatchlistItem=@movie OnRemove="OnInitializedAsync"></WatchlistMovie>
+            </div>
+        }
         </div>
-    }
-    </div>
+    </Authorized>
+    <NotAuthorized>
+        <p>
+            Please create an account to view your watch list.
+        </p>
+    </NotAuthorized>
 </AuthorizeView>
 
 @code {
@@ -22,6 +29,10 @@
     protected override async Task OnInitializedAsync()
     {
         var userId = await userService.GetUserId();
-        WatchlistItems = movieWatchListService.GetUserWatchList(userId);
+
+        if (userId != null)
+        {
+            WatchlistItems = movieWatchListService.GetUserWatchList(userId);
+        }
     }
 }

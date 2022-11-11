@@ -15,7 +15,15 @@ namespace TheMovieWatchlist.Services
         {
             var authState = await authenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            return user.FindFirst("sub").Value;
+
+            try
+            {
+                return user.FindFirst("sub").Value;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<string> GetUserEmail()
