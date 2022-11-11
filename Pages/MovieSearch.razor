@@ -1,0 +1,44 @@
+﻿@page "/MovieSearch"
+@using TheMovieWatchlist.Data;
+@inject TheMovieWatchlist.Services.MovieService movieService
+
+<div>
+    <div class="input-group mb-3">
+        <input type="text" @bind-value="@searchTerm" class="form-control" placeholder="Search for a movie">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" @onclick="Search" type="submit">Search</button>
+        </div>
+    </div>
+    <div class="row">
+        @if (searchData != null)
+        {
+            @foreach (var result in searchData.Results)
+            {
+                <div class="card col-3 m-2">
+                    <a href="MovieDetail/@result.Id" class="stretched-link"></a>
+                    <img class="card-img-top" src=@result.Image />
+                    <div class="card-body text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">@result.Title</h5>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    public SearchData searchData { get; set; }
+    public string searchTerm { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        searchData = await movieService.GetSearchResultAsync("Glass Onion");
+    }
+
+    public async Task Search()
+    {
+        searchData = await movieService.GetSearchResultAsync(searchTerm);
+    }
+}

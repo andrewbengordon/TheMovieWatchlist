@@ -29,5 +29,12 @@ namespace TheMovieWatchlist.Services
             var youtubeTrailer = await httpClient.GetFromJsonAsync<YoutubeTrailer>(url);
             return youtubeTrailer;
         }
+
+        public async Task<SearchData> GetSearchResultAsync(string searchTerm)
+        {
+            var url = $"{apiUrl}SearchMovie/{apiKey}/{searchTerm}";
+            var searchData = await httpClient.GetFromJsonAsync<SearchData>(url);
+            return searchData;
+        }
     }
 }
