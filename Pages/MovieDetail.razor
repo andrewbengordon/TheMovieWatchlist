@@ -1,6 +1,9 @@
 ﻿@page "/MovieDetail/{MovieId}"
 @using TheMovieWatchlist.Data
 @inject TheMovieWatchlist.Services.MovieService movieService
+@inject TheMovieWatchlist.Services.MovieWatchListService watchlistService
+@inject TheMovieWatchlist.Services.UserService userService
+@inject NavigationManager NavManager
 
 @if (loadingMovieDetails)
 {
@@ -22,11 +25,16 @@ else
         <hr class="mb-4 mt-0">
         <div class="row mb-2">
             <div class="col-3 border-end border-3">
-                <img src=@movieDetails.image class="img-fluid mb-2"/>
+                <img src=@movieDetails.image class="img-fluid mb-2" />
                 <div class="row">
                     <a target="_blank" href=@($"https://www.imdb.com/title/{MovieId}")>
                         <img src="icons/imdb_icon.png" />
                     </a>
+                    <AuthorizeView>
+                        <Authorized>
+                            <button class="btn btn-outline-primary m-2 col-10" @onclick="AddMovie">Add To Watchlist</button>
+                        </Authorized>
+                    </AuthorizeView>
                 </div>
             </div>
             <div class="col-9 my-auto">
@@ -47,12 +55,11 @@ else
                     }
                 </div>
                 <div class="ratio ratio-16x9 m-2">
-                    <iframe 
-                        class="embed-responsive-item"
-                        src=@youtubeTrailer.videoUrl.Replace("watch?v=", "embed/") 
-                        title="YouTube video player" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    <iframe class="embed-responsive-item"
+                        src=@youtubeTrailer.videoUrl.Replace("watch?v=", "embed/")
+                        title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
                 </div>
             </div>
@@ -68,11 +75,25 @@ else
 
     private MovieDetails movieDetails = new();
     private YoutubeTrailer youtubeTrailer = new();
+    private string userId { get; set; }
+    private WatchlistItem watchlistItem { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         movieDetails = await movieService.GetMovieDetailsAsync(MovieId);
         youtubeTrailer = await movieService.GetMovieYoutubeTrailerAsync(MovieId);
         loadingMovieDetails = false;
+        userId = await userService.GetUserId();
+        watchlistItem = new WatchlistItem
+            {
+                MovieId = movieDetails.id,
+                Status = "Not Watched"
+            };
+    }
+
+    public void AddMovie()
+    {
+        watchlistService.AddMovie(userId, watchlistItem);
+        NavManager.NavigateTo("/Watchlist");
     }
 }

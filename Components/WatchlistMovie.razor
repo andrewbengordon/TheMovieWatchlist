@@ -2,6 +2,7 @@
 @inject TheMovieWatchlist.Services.MovieService movieService
 @inject TheMovieWatchlist.Services.MovieWatchListService watchlistService
 @inject TheMovieWatchlist.Services.UserService userService
+@inject NavigationManager NavManager
 
 @if (loadingMovieDetails)
 {
@@ -24,6 +25,8 @@ else
                     <button class="dropdown-item" @onclick="() => ChangeStatus(statuses[0])" >@statuses[0]</button>
                     <button class="dropdown-item" @onclick="() => ChangeStatus(statuses[1])" >@statuses[1]</button>
                     <button class="dropdown-item" @onclick="() => ChangeStatus(statuses[2])" >@statuses[2]</button>
+                    <div class="dropdown-divider"></div>
+                    <button class="dropdown-item alert-danger" @onclick="RemoveMovie">Remove</button>
                 </div>
             </div>
         </div>
@@ -54,5 +57,11 @@ else
     public string GetStatus()
     {
         return watchlistService.GetStatus(userId, WatchlistItem);
+    }
+
+    public void RemoveMovie()
+    {
+        watchlistService.RemoveMovie(userId, WatchlistItem);
+        NavManager.NavigateTo("/Watchlist");
     }
 }
