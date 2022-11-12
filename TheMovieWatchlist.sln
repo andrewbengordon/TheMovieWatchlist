@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheMovieWatchlist", "TheMovieWatchlist.csproj", "{9A9AB07A-9737-48AB-82CB-522235EFE219}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheMovieWatchlist.Tests", "TheMovieWatchlist.Tests\TheMovieWatchlist.Tests.csproj", "{5D577AAA-8819-4B36-9D7E-8755F96773FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheMovieWatchlist", "TheMovieWatchlist\TheMovieWatchlist.csproj", "{B0507D78-FEB9-40FF-A505-8E1A29B1EC2B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9A9AB07A-9737-48AB-82CB-522235EFE219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A9AB07A-9737-48AB-82CB-522235EFE219}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A9AB07A-9737-48AB-82CB-522235EFE219}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A9AB07A-9737-48AB-82CB-522235EFE219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D577AAA-8819-4B36-9D7E-8755F96773FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D577AAA-8819-4B36-9D7E-8755F96773FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D577AAA-8819-4B36-9D7E-8755F96773FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D577AAA-8819-4B36-9D7E-8755F96773FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0507D78-FEB9-40FF-A505-8E1A29B1EC2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0507D78-FEB9-40FF-A505-8E1A29B1EC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0507D78-FEB9-40FF-A505-8E1A29B1EC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0507D78-FEB9-40FF-A505-8E1A29B1EC2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
